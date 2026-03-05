@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../config/theme/app_colors.dart';
+import '../../../../core/extensions/context_extensions.dart';
+import '../../../../core/presentation/widgets/app_card.dart';
 
 class BookingSectionCard extends StatelessWidget {
   final String title;
@@ -15,35 +17,22 @@ class BookingSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppCard(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowColor,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: 20, color: AppColors.textPrimary),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
+              Icon(
+                icon,
+                size: 20,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.textPrimary,
               ),
+              const SizedBox(width: 8),
+              Text(title, style: context.textTheme.titleSmall),
             ],
           ),
           const SizedBox(height: 16),

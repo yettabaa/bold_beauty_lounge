@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../config/theme/app_colors.dart';
+import '../../../../core/extensions/context_extensions.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,43 +14,29 @@ class HomePage extends StatelessWidget {
           Positioned.fill(
             child: Image.asset('assets/images/spa.jpg', fit: BoxFit.cover),
           ),
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.6),
-                    Colors.black.withOpacity(0.3),
-                    Colors.black.withOpacity(0.7),
-                  ],
-                ),
-              ),
-            ),
-          ),
 
           SafeArea(
             child: Column(
               children: [
-                // Logo in the absolute center of the screen
-                Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Image.asset(
-                        'assets/logos/logo bold blanc.png',
-                        width: 320,
-                        height: 100,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                // Logo at the top
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 40,
+                  ),
+                  child: Image.asset(
+                    'assets/logos/logo bold blanc.png',
+                    width: 220,
+                    height: 50,
+                    fit: BoxFit.contain,
                   ),
                 ),
 
+                const Spacer(),
+
                 // Button pinned to the bottom
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 48),
+                  padding: const EdgeInsets.fromLTRB(48, 0, 48, 48),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -61,17 +47,17 @@ class HomePage extends StatelessWidget {
                           onPressed: () => context.push('/services'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black54,
-                            foregroundColor: Colors.white,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
-                          child: const Text(
+                          child:
+                           
+                          Text(
                             'Voir les services',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            style: context.textTheme.titleSmall?.copyWith(
+                              color: Colors.white,
                             ),
                           ),
                         ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/extensions/context_extensions.dart';
 import '../../../../config/theme/app_colors.dart';
 import '../../../../features/services/domain/entities/service.dart';
+import '../../../../core/presentation/widgets/app_button.dart';
 import '../widgets/booking_confirmation_modal.dart';
 import '../widgets/booking_section_card.dart';
 
@@ -61,45 +63,28 @@ class _BookingPageState extends State<BookingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            GestureDetector(
-              onTap: () => context.pop(),
-              child: const Icon(
-                Icons.arrow_back,
-                color: AppColors.textSecondary,
-                size: 24,
-              ),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            title: Row(
+              children: [
+                GestureDetector(
+                  onTap: () => context.pop(),
+                  child: Icon(
+                    Icons.close,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : AppColors.textSecondary,
+                    size: 24,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
-            const Text(
-              'Réservation',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: AppColors.surface,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(
-            color: AppColors.border.withOpacity(0.5),
-            height: 1.0,
           ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
+          body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +94,7 @@ class _BookingPageState extends State<BookingPage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: const Border(
                       left: BorderSide(color: AppColors.primary, width: 4),
@@ -127,19 +112,12 @@ class _BookingPageState extends State<BookingPage> {
                     children: [
                       Text(
                         widget.service.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                        ),
+                        style: context.textTheme.titleSmall,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${widget.service.durationMinutes} min • ${widget.service.price} dh',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textSecondary,
-                        ),
+                        style: context.textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -162,23 +140,6 @@ class _BookingPageState extends State<BookingPage> {
                               const Duration(days: 365 * 100),
                             ),
                             locale: const Locale('fr', 'FR'),
-                            builder: (context, child) {
-                              return Theme(
-                                data: Theme.of(context).copyWith(
-                                  colorScheme: const ColorScheme.light(
-                                    primary: AppColors.primary,
-                                    onPrimary: Colors.white,
-                                    onSurface: AppColors.textPrimary,
-                                  ),
-                                  textButtonTheme: TextButtonThemeData(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: AppColors.primary,
-                                    ),
-                                  ),
-                                ),
-                                child: child!,
-                              );
-                            },
                           );
                           if (picked != null && picked != selectedDate) {
                             setState(() {
@@ -193,9 +154,11 @@ class _BookingPageState extends State<BookingPage> {
                             vertical: 12,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.background,
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: AppColors.border),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,14 +167,14 @@ class _BookingPageState extends State<BookingPage> {
                                 selectedDate == null
                                     ? 'Sélectionner une date'
                                     : _formatDisplayDate(selectedDate!),
-                                style: TextStyle(
-                                  color: selectedDate == null
-                                      ? AppColors.textSecondary
-                                      : AppColors.textPrimary,
+                                style: context.textTheme.bodyMedium?.copyWith(
                                   fontSize: 16,
+                                  color: selectedDate == null
+                                      ? null
+                                      : Theme.of(context).colorScheme.onSurface,
                                 ),
                               ),
-                              const Icon(
+                              Icon(
                                 Icons.calendar_month,
                                 color: AppColors.primary,
                               ),
@@ -250,26 +213,25 @@ class _BookingPageState extends State<BookingPage> {
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? AppColors.primaryLight
-                                : AppColors.surface,
+                                : Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: isSelected
                                   ? AppColors.primary
-                                  : AppColors.border,
+                                  : Theme.of(context).colorScheme.outline,
                               width: 2,
                             ),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             time,
-                            style: TextStyle(
-                              fontSize: 14,
+                            style: context.textTheme.bodyMedium?.copyWith(
                               fontWeight: isSelected
                                   ? FontWeight.bold
                                   : FontWeight.normal,
                               color: isSelected
                                   ? AppColors.primary
-                                  : AppColors.textPrimary,
+                                  : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -280,56 +242,28 @@ class _BookingPageState extends State<BookingPage> {
                 const SizedBox(height: 32),
 
                 // Confirm Button
-                SizedBox(
-                  width: double.infinity,
-                  height: 60,
-                  child: ElevatedButton(
-                    onPressed: (selectedDate != null && selectedSlot != null)
-                        ? () => setState(() => showConfirmation = true)
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: AppColors.border,
-                      disabledForegroundColor: AppColors.textSecondary
-                          .withOpacity(0.5),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.check, size: 20),
-                        SizedBox(width: 12),
-                        Text(
-                          'Confirmer la réservation',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                AppButton(
+                  label: 'Confirmer la réservation',
+                  icon: Icons.check,
+                  onPressed: (selectedDate != null && selectedSlot != null)
+                      ? () => setState(() => showConfirmation = true)
+                      : null,
                 ),
                 const SizedBox(height: 48),
               ],
             ),
           ),
+        ),
 
-          // Confirmation Modal Overlay
-          if (showConfirmation)
-            BookingConfirmationModal(
-              service: widget.service,
-              selectedDate: selectedDate,
-              selectedSlot: selectedSlot,
-              onDismiss: () => setState(() => showConfirmation = false),
-            ),
-        ],
-      ),
+        // Confirmation Modal Overlay
+        if (showConfirmation)
+          BookingConfirmationModal(
+            service: widget.service,
+            selectedDate: selectedDate,
+            selectedSlot: selectedSlot,
+            onDismiss: () => setState(() => showConfirmation = false),
+          ),
+      ],
     );
   }
-
 }
