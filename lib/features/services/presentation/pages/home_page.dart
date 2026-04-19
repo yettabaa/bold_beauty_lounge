@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/extensions/context_extensions.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -56,7 +57,7 @@ class HomePage extends StatelessWidget {
                            
                           Text(
                             'Voir les services',
-                            style: context.textTheme.titleSmall?.copyWith(
+                            style: theme.textTheme.titleSmall?.copyWith(
                               color: Colors.white,
                             ),
                           ),

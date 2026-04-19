@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/presentation/widgets/information_box.dart';
 import '../../../../core/presentation/widgets/app_button.dart';
 import '../../../../core/presentation/widgets/app_card.dart';
@@ -14,8 +13,9 @@ class ServiceDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      // backgroundColor: AppColors.background,
       appBar: SharedAppBar(onBack: () => context.pop()),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
@@ -26,7 +26,7 @@ class ServiceDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(service.name, style: context.textTheme.titleLarge),
+                  Text(service.name, style: theme.textTheme.titleLarge),
                   const SizedBox(height: 16),
 
                   // Highlighted Badges
@@ -40,23 +40,18 @@ class ServiceDetailPage extends StatelessWidget {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.outline,
-                          ),
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                          border: Border.all(color: theme.colorScheme.outline),
+                          color: theme.scaffoldBackgroundColor,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
-                              Icons.access_time,
-                              size: 16,
-                            ),
+                            Icon(Icons.access_time, size: 16),
                             const SizedBox(width: 8),
                             Text(
                               '${service.durationMinutes} minutes',
-                              style: context.textTheme.bodySmall,
+                              style: theme.textTheme.bodySmall,
                             ),
                           ],
                         ),
@@ -81,7 +76,7 @@ class ServiceDetailPage extends StatelessWidget {
                             const SizedBox(width: 8),
                             Text(
                               '${service.price} dh',
-                              style: context.textTheme.labelMedium,
+                              style: theme.textTheme.labelMedium,
                             ),
                           ],
                         ),
@@ -94,7 +89,7 @@ class ServiceDetailPage extends StatelessWidget {
                     child: Divider(color: AppColors.border, height: 1),
                   ),
 
-                  Text('Description', style: context.textTheme.titleSmall),
+                  Text('Description', style: theme.textTheme.titleSmall),
                   const SizedBox(height: 8),
                   Text(service.description),
                 ],

@@ -17,6 +17,8 @@ class ServicesPage extends StatelessWidget {
       appBar: SharedAppBar(onBack: () => context.go('/')),
       body: BlocBuilder<ServicesBloc, ServicesState>(
         builder: (context, state) {
+          final textTheme = context.textTheme;
+
           if (state is ServicesLoading || state is ServicesInitial) {
             return const Center(child: CircularProvider());
           } else if (state is ServicesLoaded) {
@@ -39,10 +41,7 @@ class ServicesPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                service.name,
-                                style: context.textTheme.titleSmall,
-                              ),
+                              Text(service.name, style: textTheme.titleSmall),
                               const SizedBox(height: 12),
                               Row(
                                 children: [
@@ -50,7 +49,7 @@ class ServicesPage extends StatelessWidget {
                                   const SizedBox(width: 6),
                                   Text(
                                     '${service.durationMinutes} min',
-                                    style: context.textTheme.bodySmall,
+                                    style: textTheme.bodySmall,
                                   ),
                                   const SizedBox(width: 16),
                                   const Icon(
@@ -61,7 +60,7 @@ class ServicesPage extends StatelessWidget {
                                   const SizedBox(width: 6),
                                   Text(
                                     '${service.price} dh',
-                                    style: context.textTheme.labelMedium,
+                                    style: textTheme.labelMedium,
                                   ),
                                 ],
                               ),
